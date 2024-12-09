@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Formulario de Datos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 90%;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        header {
+            background: #ffd700;
+            color: #000;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: #000 3px solid;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+        }
+        header #branding {
+            display: flex;
+            align-items: center;
+        }
+        header #branding img {
+            height: 60px;
+            margin-right: 20px;
+        }
+        form {
+            background: #fff;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #ffd700;
+            color: #000;
+        }
+        input[type="text"], input[type="date"] {
+            width: 100%;
+            padding: 8px;
+            margin: 6px 0;
+            box-sizing: border-box;
+        }
+        input[type="button"] {
+            background-color: #ffd700;
+            color: black;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+        input[type="button"]:hover {
+            background-color: #e6be00;
+        }
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                text-align: center;
+            }
+            table, th, td {
+                font-size: 12px;
+            }
+            input[type="text"], input[type="date"] {
+                padding: 6px;
+            }
+            input[type="button"] {
+                padding: 8px 16px;
+            }
+        }
+    </style>
+    <script>
+        var idCounter = 0;
+
+        function agregarFila() {
+            var tracto = document.getElementById("inputTracto").value;
+            var remolque = document.getElementById("inputRemolque").value;
+            var operador = document.getElementById("inputOperador").value;
+            var fecha_salida = document.getElementById("inputFechaSalida").value;
+            var fecha_llegada = document.getElementById("inputFechaLlegada").value;
+            var cliente = document.getElementById("inputCliente").value;
+            var ruta = document.getElementById("inputRuta").value;
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "agregarFila.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function () {
+                if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                    console.log(this.responseText);
+                    location.reload();
+                }
+            };
+            xhr.send("tracto=" + tracto + "&remolque=" + remolque + "&operador=" + operador + "&fecha_salida=" + fecha_salida + "&fecha_llegada=" + fecha_llegada + "&cliente=" + cliente + "&ruta=" + ruta);
+        }
+
+        function editarFila(id) {
+            var fila = document.getElementById("fila" + id);
+            var cells = fila.getElementsByTagName("td");
+
+            var tracto = cells[0].innerHTML;
+            var remolque = cells[1].innerHTML;
+            var operador = cells[2].innerHTML;
+            var fecha_salida = cells[3].innerHTML;
+            var fecha_llegada = cells[4].innerHTML;
+            var cliente = cells[5].innerHTML;
+            var ruta = cells[6].innerHTML;
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "editarFila.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function () {
+                if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                    console.log(this.responseText);
+                    location.reload();
+                }
+            };
+            xhr.send("id=" + id + "&tracto=" + tracto + "&remolque=" + remolque + "&operador=" + operador + "&fecha_salida=" + fecha_salida + "&fecha_llegada=" + fecha_llegada + "&cliente=" + cliente + "&ruta=" + ruta);
+        }
+
+        function borrarFila(id) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "borrarFila.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function () {
+                if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                    console.log(this.responseText);
+                    location.reload();
+                }
+            };
+            xhr.send("id=" + id);
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div id="branding">
+                <img src="logo.png" alt="Logo de la Empresa">
+                <h1>Control de Llegadas/Salidas</h1>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <form id="formularioDatos">
+            <table>
+                <tr>
+                    <th>Tracto</th>
+                    <th>Remolque</th>
+                    <th>Operador</th>
+                    <th>Fecha salida</th>
+                    <th>Fecha aproximada de llegada</th>
+                    <th>Cliente</th>
+                    <th>Ruta</th>
+                </tr>
+                <tr>
+                    <td><input type="text" id="inputTracto" name="tracto"></td>
+                    <td><input type="text" id="inputRemolque" name="remolque"></td>
+                    <td><input type="text" id="inputOperador" name="operador"></td>
+                    <td><input type="date" id="inputFechaSalida" name="fecha_salida"></td>
+                    <td><input type="date" id="inputFechaLlegada" name="fecha_llegada"></td>
+                    <td><input type="text" id="inputCliente" name="cliente"></td>
+                    <td><input type="text" id="inputRuta" name="ruta"></td>
+                </tr>
+            </table>    
+            <input type="button" value="Agregar" onclick="agregarFila()">
+        </form>
+        
+        <br>
+        <table id="tablaDatos">
+            <tr>
+                <th>Tracto</th>
+                <th>Remolque</th>
+                <th>Operador</th>
+                <th>Fecha salida</th>
+                <th>Fecha aproximada de llegada</th>
+                <th>Cliente</th>
+                <th>Ruta</th>
+                <th>Editar</th>
+                <th>Borrar</th>
+            </tr>
+            <!-- Aquí se agregarán las nuevas filas -->
+        </table>
+    </div>
+</body>
+</html>
