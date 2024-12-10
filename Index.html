@@ -1,332 +1,354 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
     <title>Control de Salidas/Llegadas</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <style>
-        /* General body styling */
+        /* Estilos generales */
         body {
-            background-color: #f4f4f4;
-            color: #333;
             font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
             margin: 0;
             padding: 0;
         }
 
-        /* Header styling */
+        .container {
+            width: 90%;
+            margin: 0 auto;
+        }
+
         header {
-            background: linear-gradient(to right, #000000, #ffd700); /* Black to yellow gradient */
-            padding: 20px 0;
-            text-align: center;
-            color: #fff;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        header img {
-            max-height: 80px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            margin: 10px 0;
-        }
-
-        /* Footer styling */
-        
-        footer {
-            background: linear-gradient(to right, #000000, #ffd700); /* Black to yellow gradient */
-            padding: 20px 0;
-            text-align: center;
-            color: #fff;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        footer img {
-            max-height: 80px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-        }
-
-        /* Form and Filters Styling */
-        .form-table, .filters {
-            background-color: #fff;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            margin-top: 15px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-table table, .filters table {
-            width: 100%;
-            margin: 0;
-        }
-
-        .form-table td, .filters td {
-            padding: 10px;
-            text-align: left;
-        }
-
-        .form-table input[type="text"], .form-table input[type="date"], .form-table input[type="file"],
-        .filters input[type="text"], .filters input[type="date"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #fff;
-            color: #333;
-            font-size: 14px;
-        }
-
-        .form-table input[type="text"]:focus, .form-table input[type="date"]:focus, .form-table input[type="file"]:focus,
-        .filters input[type="text"]:focus, .filters input[type="date"]:focus {
-            border-color: #ffd700;
-            box-shadow: 0 0 4px #ffd700;
-        }
-
-        button {
-            background-color: #ffd700;
+            background: linear-gradient(135deg, #000000, #e6be00);
             color: #000;
-            padding: 8px 12px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            margin: 5px;
-            font-size: 14px;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 3px solid #000;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
         }
 
-        button:hover {
-            background-color: #e6be00;
+        header #logo img {
+            max-height: 90px;
         }
 
-        .btn-danger {
-            background-color: #d9534f;
-        }
-
-        .btn-danger:hover {
-            background-color: #c9302c;
-        }
-
-        .btn-editar {
-            background-color: #5bc0de;
-        }
-
-        .btn-editar:hover {
-            background-color: #31b0d5;
-        }
-
-        /* Table styling */
-        .table-responsive {
-            margin-top: 15px;
-            border-radius: 8px;
-            overflow-x: auto; /* Enable horizontal scroll */
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            background-color: #fff;
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
         }
 
         table {
             width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            border-radius: 8px;
+            margin-top: 20px;
+            border-collapse: collapse;
+            border-radius: 10px;
+            overflow: hidden;
         }
 
-        table th, table td {
-            padding: 10px;
+        th, td {
+            padding: 12px;
             text-align: left;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            border-bottom: 2px solid #ddd;
         }
 
-        table th {
+        th {
             background-color: #ffd700;
-            color: #000;
-            font-weight: bold;
+            color: black;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        table td {
-            background-color: #fff;
+        tr:hover {
+            background-color: #f1f1f1;
         }
 
-        table tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        table tr:hover {
-            background-color: #f0e68c;
-        }
-
-        table td input {
+        input[type="text"],
+        input[type="date"],
+        input[type="file"] {
             width: 100%;
-            padding: 5px;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border: 2px solid #ddd;
             font-size: 14px;
-            border: 1px solid #ddd;
+        }
+
+        input[type="button"],
+        .btn-primary {
+            background-color: #000;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        input[type="button"]:hover,
+        .btn-primary:hover {
+            background-color: #ffd700;
+            color: black;
+        }
+
+        .btn-primary:active {
+            background-color: #e6be00;
+            transform: scale(0.98);
+        }
+
+        /* Estilos de fila */
+        .btn-editar, .btn-borrar {
+            margin-right: 8px;
+            padding: 6px 12px;
             border-radius: 5px;
-        }
-
-        /* Compact layout for forms */
-        .form-table input[type="text"], .form-table input[type="date"], .form-table input[type="file"],
-        .filters input[type="text"], .filters input[type="date"] {
-            width: calc(100% - 20px);
-            padding: 8px;
             font-size: 14px;
+            cursor: pointer;
         }
 
-        /* Button styles for adding/editing */
-        .btn-agregar {
+        .btn-editar {
             background-color: #28a745;
             color: white;
         }
 
-        .btn-agregar:hover {
+        .btn-editar:hover {
             background-color: #218838;
         }
 
-        .btn-editar {
-            background-color: #007bff;
+        .btn-borrar {
+            background-color: #dc3545;
             color: white;
         }
 
-        .btn-editar:hover {
-            background-color: #0056b3;
-        }
-
-        /* Styling for the search filters */
-        .filters {
-            background-color: #fff;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            margin-top: 15px;
-        }
-
-        .filters label {
-            font-weight: bold;
-        }
-
-        /* Make table scrollable */
-        .table-responsive {
-            margin-top: 15px;
-            overflow-x: auto; /* Enable horizontal scroll */
-        }
-
-        table td {
-            white-space: nowrap; /* Prevent text wrapping */
+        .btn-borrar:hover {
+            background-color: #c82333;
         }
     </style>
 </head>
+
 <body>
     <header>
-        <img src="WhatsApp Image 2024-12-09 at 9.16.52 PM.jpeg" alt="Logo">        
-    </header>
-    <div class="container">
-        <h1 class="text-center my-3">Control de Llegadas/Salidas</h1>
-        
-        <!-- Formulario de Inserción -->
-        <div class="form-table">
-            <h4>Agregar Registro</h4>
-            <form id="formularioDatos">
-                <table>
-                    <tr>
-                        <td><label for="inputTracto">Tracto:</label></td>
-                        <td><input type="text" id="inputTracto" name="tracto"></td>
-                    </tr>
-                    <tr>
-                        <td><label for="inputRemolque">Remolque:</label></td>
-                        <td><input type="text" id="inputRemolque" name="remolque"></td>
-                    </tr>
-                    <tr>
-                        <td><label for="inputOperador">Operador:</label></td>
-                        <td><input type="text" id="inputOperador" name="operador"></td>
-                    </tr>
-                    <tr>
-                        <td><label for="inputFechaSalida">Fecha Salida:</label></td>
-                        <td><input type="date" id="inputFechaSalida" name="fecha_salida"></td>
-                    </tr>
-                    <tr>
-                        <td><label for="inputFechaLlegada">Fecha Llegada:</label></td>
-                        <td><input type="date" id="inputFechaLlegada" name="fecha_llegada"></td>
-                    </tr>
-                    <tr>
-                        <td><label for="inputCliente">Cliente:</label></td>
-                        <td><input type="text" id="inputCliente" name="cliente"></td>
-                    </tr>
-                    <tr>
-                        <td><label for="inputRuta">Ruta:</label></td>
-                        <td><input type="text" id="inputRuta" name="ruta"></td>
-                    </tr>
-                    <tr>
-                        <td><label for="inputKilometraje">Kilometraje:</label></td>
-                        <td><input type="text" id="inputKilometraje" name="kilometraje"></td>
-                    </tr>
-                    <tr>
-                        <td><label for="inputFactura">Factura:</label></td>
-                        <td><input type="file" id="inputFactura" name="factura"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"><button type="button" class="btn-agregar" id="btnAgregar">Agregar</button></td>
-                    </tr>
-                </table>
-            </form>
+        <div id="branding">
+            <label id="logo"><img src="WhatsApp_Image_2024-12-09_at_9.16.52_PM-removebg-preview.png"></label>
         </div>
+        
+    </header>
+    <h1>Control de Llegadas/Salidas</h1>
 
-        <!-- Filtros de búsqueda -->
-        <div class="filters">
-            <h4>Filtros de Búsqueda</h4>
+    <div class="container">
+        <!-- Filtro de búsqueda -->
+        <form id="formularioBusqueda" class="mb-4">
+            <h3>Filtrar Registros</h3>
             <div class="row">
                 <div class="col-md-3">
-                    <label for="filtroTracto">Tracto:</label>
-                    <input type="text" id="filtroTracto">
+                    <input type="text" id="filtroTracto" class="form-control" placeholder="Buscar por Tracto">
                 </div>
                 <div class="col-md-3">
-                    <label for="filtroRemolque">Remolque:</label>
-                    <input type="text" id="filtroRemolque">
+                    <input type="text" id="filtroRemolque" class="form-control" placeholder="Buscar por Remolque">
                 </div>
                 <div class="col-md-3">
-                    <label for="filtroOperador">Operador:</label>
-                    <input type="text" id="filtroOperador">
+                    <input type="text" id="filtroOperador" class="form-control" placeholder="Buscar por Operador">
                 </div>
                 <div class="col-md-3">
-                    <label for="filtroFecha">Fecha:</label>
-                    <input type="date" id="filtroFecha">
+                    <input type="text" id="filtroCliente" class="form-control" placeholder="Buscar por Cliente">
                 </div>
             </div>
-            <button class="btn-editar" id="btnFiltrar">Filtrar</button>
-            <button class="btn-editar" id="btnMostrarTodos">Mostrar Todos</button>
-        </div>
 
-        <!-- Tabla de datos con desplazamiento horizontal -->
-        <div class="table-responsive">
+            <div class="row mt-2">
+                <div class="col-md-3">
+                    <input type="date" id="filtroFechaSalida" class="form-control" placeholder="Fecha de salida">
+                </div>
+                <div class="col-md-3">
+                    <input type="date" id="filtroFechaLlegada" class="form-control" placeholder="Fecha de llegada">
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary mt-3" id="btnBuscar">Buscar</button>
+        </form>
+
+        <!-- Formulario de datos -->
+        <form id="formularioDatos">
             <table>
-                <thead>
-                    <tr>
-                        <th>Tracto</th>
-                        <th>Remolque</th>
-                        <th>Operador</th>
-                        <th>Fecha salida</th>
-                        <th>Fecha llegada</th>
-                        <th>Cliente</th>
-                        <th>Ruta</th>
-                        <th>Kilometraje</th>
-                        <th>Factura</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody id="tablaDatos">
-                    <!-- Filas dinámicas -->
-                </tbody>
+                <tr>
+                    <th>Tracto</th>
+                    <th>Remolque</th>
+                    <th>Operador</th>
+                    <th>Fecha salida</th>
+                    <th>Fecha aproximada de llegada</th>
+                    <th>Cliente</th>
+                    <th>Ruta</th>
+                    <th>Kilometraje</th>
+                    <th>Factura</th>
+                </tr>
+                <tr>
+                    <td><input type="text" id="inputTracto" name="tracto"></td>
+                    <td><input type="text" id="inputRemolque" name="remolque"></td>
+                    <td><input type="text" id="inputOperador" name="operador"></td>
+                    <td><input type="date" id="inputFechaSalida" name="fecha_salida"></td>
+                    <td><input type="date" id="inputFechaLlegada" name="fecha_llegada"></td>
+                    <td><input type="text" id="inputCliente" name="cliente"></td>
+                    <td><input type="text" id="inputRuta" name="ruta"></td>
+                    <td><input type="text" id="inputKilometraje" name="kilometraje"></td>
+                    <td><input type="file" id="inputFactura" name="factura"></td>
+                </tr>
             </table>
-        </div>
+            <button type="button" class="btn btn-primary" id="btnAgregar">Agregar</button>
+        </form>
+
+        <br>
+
+        <!-- Tabla de registros -->
+        <table id="tablaDatos">
+            <thead>
+                <tr>
+                    <th>Tracto</th>
+                    <th>Remolque</th>
+                    <th>Operador</th>
+                    <th>Fecha salida</th>
+                    <th>Fecha aproximada de llegada</th>
+                    <th>Cliente</th>
+                    <th>Ruta</th>
+                    <th>Kilometraje</th>
+                    <th>Factura</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="cuerpoTabla">
+                <!-- Las filas dinámicas se agregarán aquí -->
+            </tbody>
+        </table>
     </div>
-    <footer>
-        <img src="WhatsApp Image 2024-12-09 at 9.16.52 PM.jpeg" alt="Footer Logo">
-    </footer>
+
+    <script>
+        // Variables
+        const tabla = document.querySelector(".cuerpoTabla");
+        const formulario = document.getElementById("formularioDatos");
+        const btnAgregar = document.getElementById("btnAgregar");
+        const btnBuscar = document.getElementById("btnBuscar");
+
+        let datos = []; // Almacena los datos en memoria
+
+        // Crear una nueva fila en la tabla
+        const agregarFila = (registro) => {
+            const tr = document.createElement("tr");
+            const facturaUrl = registro.factura ? `<a href="${URL.createObjectURL(registro.factura)}" target="_blank">Ver Factura</a>` : 'No cargada';
+
+            tr.innerHTML = 
+                `<td>${registro.tracto}</td>
+                <td>${registro.remolque}</td>
+                <td>${registro.operador}</td>
+                <td>${registro.fecha_salida}</td>
+                <td>${registro.fecha_llegada}</td>
+                <td>${registro.cliente}</td>
+                <td>${registro.ruta}</td>
+                <td>${registro.kilometraje}</td>
+                <td>${facturaUrl}</td>
+                <td>
+                    <button class="btn btn-editar">Editar</button>
+                    <button class="btn btn-borrar">Borrar</button>
+                </td>`;
+            tabla.appendChild(tr);
+
+            // Asignar eventos de editar y borrar
+            tr.querySelector(".btn-editar").addEventListener("click", () => editarFila(tr, registro));
+            tr.querySelector(".btn-borrar").addEventListener("click", () => borrarFila(tr, registro));
+        };
+
+        // Función para validar los campos antes de agregar
+        const validarCampos = (registro) => {
+            if (!registro.tracto || !registro.remolque || !registro.operador || !registro.fecha_salida || 
+                !registro.fecha_llegada || !registro.cliente || !registro.ruta || !registro.kilometraje) {
+                return false;
+            }
+            return true;
+        };
+
+        // Manejar el botón Agregar
+        btnAgregar.addEventListener("click", () => {
+            const nuevoRegistro = {
+                tracto: document.getElementById("inputTracto").value,
+                remolque: document.getElementById("inputRemolque").value,
+                operador: document.getElementById("inputOperador").value,
+                fecha_salida: document.getElementById("inputFechaSalida").value,
+                fecha_llegada: document.getElementById("inputFechaLlegada").value,
+                cliente: document.getElementById("inputCliente").value,
+                ruta: document.getElementById("inputRuta").value,
+                kilometraje: document.getElementById("inputKilometraje").value,
+                factura: document.getElementById("inputFactura").files[0], // Obtener el archivo PDF cargado
+            };
+
+            if (validarCampos(nuevoRegistro)) {
+                datos.push(nuevoRegistro);
+                agregarFila(nuevoRegistro);
+                formulario.reset(); // Limpiar formulario
+            } else {
+                alert("Por favor, complete todos los campos obligatorios.");
+            }
+        });
+
+        // Función de búsqueda por filtros
+        btnBuscar.addEventListener("click", () => {
+            const filtroTracto = document.getElementById("filtroTracto").value.toLowerCase();
+            const filtroRemolque = document.getElementById("filtroRemolque").value.toLowerCase();
+            const filtroOperador = document.getElementById("filtroOperador").value.toLowerCase();
+            const filtroCliente = document.getElementById("filtroCliente").value.toLowerCase();
+            const fechaSalida = document.getElementById("filtroFechaSalida").value;
+            const fechaLlegada = document.getElementById("filtroFechaLlegada").value;
+
+            const datosFiltrados = datos.filter(registro => {
+                const fechaValida = (
+                    (!fechaSalida || new Date(registro.fecha_salida) >= new Date(fechaSalida)) &&
+                    (!fechaLlegada || new Date(registro.fecha_llegada) <= new Date(fechaLlegada))
+                );
+
+                return (
+                    registro.tracto.toLowerCase().includes(filtroTracto) &&
+                    registro.remolque.toLowerCase().includes(filtroRemolque) &&
+                    registro.operador.toLowerCase().includes(filtroOperador) &&
+                    registro.cliente.toLowerCase().includes(filtroCliente) &&
+                    fechaValida
+                );
+            });
+
+            // Limpiar la tabla y agregar los registros filtrados
+            tabla.innerHTML = "";
+            if (datosFiltrados.length === 0) {
+                alert("No se encontraron resultados para los filtros seleccionados.");
+            }
+            datosFiltrados.forEach(agregarFila);
+        });
+
+        // Editar una fila
+        const editarFila = (fila, registro) => {
+            // Llenar el formulario con los datos actuales
+            document.getElementById("inputTracto").value = registro.tracto;
+            document.getElementById("inputRemolque").value = registro.remolque;
+            document.getElementById("inputOperador").value = registro.operador;
+            document.getElementById("inputFechaSalida").value = registro.fecha_salida;
+            document.getElementById("inputFechaLlegada").value = registro.fecha_llegada;
+            document.getElementById("inputCliente").value = registro.cliente;
+            document.getElementById("inputRuta").value = registro.ruta;
+            document.getElementById("inputKilometraje").value = registro.kilometraje;
+
+            // Remover la fila de la tabla y del array
+            fila.remove();
+            datos = datos.filter(d => d !== registro);
+        };
+
+        // Borrar una fila
+        const borrarFila = (fila, registro) => {
+            if (confirm("¿Estás seguro de que quieres borrar este registro?")) {
+                fila.remove();
+                datos = datos.filter(d => d !== registro);
+            }
+        };
+    </script>
 </body>
+
 </html>
